@@ -1,11 +1,11 @@
 define(
-	["modules/output"],
-	function(output){
+	["modules/output", "modules/user"],
+	function(output, user){
 
 	var Command = function() {
 	};
 	Command.prototype.run = function(args) {
-		output.clear();
+		user.send(args.join(" "));
 	};
 
 	return Command;

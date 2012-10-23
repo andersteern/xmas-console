@@ -18,4 +18,4 @@ define(function(){
 });
 ```
 
-THE BRAIN!
+THE BRAIN! The brain...

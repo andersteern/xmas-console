@@ -1,8 +1,8 @@
-define(function(){
+define(["modules/output"], function(output){
+
 	var commands = {};
 	
-	var cmd = function(consoleElement, output) {
-		this.output = output;
+	var cmd = function(consoleElement) {
 		
 		this.consoleElement = consoleElement;
 	    this.consoleElement.on('keyup', this.handleInput.bind(this));
@@ -39,10 +39,10 @@ define(function(){
 			command = cmdArray[0],
 			args = cmdArray.slice(1);
 
-		this.output.print("> " + cmd);
+		output.print("> " + cmd);
 		
 		if( !commands.setname && command !== 'setname' ) {
-			this.output.print("bad bad, u not said u name!");
+			output.print("bad bad, u not said u name!");
 			return;
 		}
 
@@ -54,10 +54,10 @@ define(function(){
 		}
 		else {
 			require(["commands/" + command], function(Command) {
-				commands[command] = new Command(this.output);
+				commands[command] = new Command();
 				commands[command].run(args);
 			}.bind(this), function (err) {
-				this.output.print('no such command: ' + command);
+				output.print('no such command: ' + command);
 			}.bind(this));
 		}
 	};
@@ -75,9 +75,10 @@ define(function(){
 		
 		this.consoleElement.val(this.history[this.historyPointer]);
 	};
+
 	cmd.prototype.sayHello = function() {
-		this.output.print("Hello!");
-		this.output.print("Plz give name thxs! (Pzt: 'setname &lt;yao name&gt;')");
+		output.print("Hello!");
+		output.print("Plz give name thxs! (Pzt: 'setname &lt;yao name&gt;')");
 	};
 	
 	return cmd;
