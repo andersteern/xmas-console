@@ -8,10 +8,12 @@ define(function(){
 	    this.consoleElement.on('keyup', this.handleInput.bind(this));
 	
 		this.consoleElement.focus();
-	    
+		
+		this.history = [];
+		this.historyPointer = null;
 	};
 	cmd.prototype.handleInput = function (e) {
-		if(e.keyCode === 13){
+		if (e.keyCode === 13) { // enter
 
 			//save command
 			var command = this.consoleElement.val();
@@ -22,12 +24,24 @@ define(function(){
 			//process command
 			this.processCommand(command);
 		}
+		else if (e.keyCode === 38) { // up
+			this.getHistory( -1 );
+			e.preventDefault();
+		}
+		else if (e.keyCode === 40) { // down
+			this.getHistory( +1 );
+			e.preventDefault();
+		}
 	};
 
 	cmd.prototype.processCommand = function (cmd) {
 		var cmdArray = cmd.split(/\s+/),
 			command = cmdArray[0],
 			args = cmdArray.slice(1);
+		
+		this.output.print("> " + cmd);
+		this.history.push(cmd);
+		this.historyPointer = this.history.length;
 		
 		if (commands[command]) {
 			commands[command].run(args);
@@ -41,6 +55,20 @@ define(function(){
 			}.bind(this));
 		}
 	}
+	cmd.prototype.getHistory = function( /* int */ direction ) {
+		this.historyPointer = this.historyPointer + direction;
+		
+		if (this.historyPointer >= this.history.length) {
+			this.historyPointer = this.history.length;
+			this.consoleElement.val("");
+			return;
+		}
+		if (this.historyPointer < 0) {
+			this.historyPointer = 0;
+		}
+		
+		this.consoleElement.val(this.history[this.historyPointer]);
+	};
 	cmd.prototype.seyHello = function() {
 		this.output.print("Hello");
 	};

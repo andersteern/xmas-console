@@ -5,23 +5,36 @@
 
 body {
 	font-family: monospace;
-	font-size: 125%;
+	font-size: 20px;
 	font-weight: bold;
 	background-color: #000;
-	color: green;
+	color: limegreen;
+}
+
+#console-wrapper {
+	position: relative;
 }
 #console {
-	padding: 4px;
+	position: absolute;
+	left: 24px;
+	right: 0;
+	height: 23px;
+
 	font-family: monospace;
 	font-weight: bold;
-	font-size: 125%;
+	font-size: 100%;
 	background-color: black;
-	color: green;
+	color: limegreen;
 	border:0;
 }
 #console:focus {
 	outline: none;
 	border:0;
+}
+#output {
+	max-height: 90%;
+	overflow: scroll;
+	
 }
 
 #background,
