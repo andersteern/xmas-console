@@ -7,7 +7,7 @@ Example command-module:
 ```js
 define(['modules/output', 'modules/chat'], function(output, chat){
 	
-	// call output.print to display things
+	// call output.print(message) to display things
 	// call chat.send(message) to message other users 
 
 	var Command = function() {
