@@ -13,7 +13,8 @@ define(function(){
 	var user = {
 		name : '',
 		location : '',
-		id : ''
+		id : '',
+		init : init
 	};
 
 	function init (name, location) {
@@ -91,5 +92,5 @@ define(function(){
 		console.log("running user command with args : " + args.join(', '));
 	}
 
-	return { init : init };
+	return user;
 });
