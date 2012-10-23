@@ -15,12 +15,13 @@ define(['modules/output'], function(_output){
 		name : '',
 		id : ''
 	};
+
 	var chat = {};
 	chat.user = user;
 
-	chat.init = function (name, location) {
+	chat.init = function (name) {
 		user.name = name;
-
+		
 		// ----------------------------------
 		// INIT PUBNUB
 		// ----------------------------------
