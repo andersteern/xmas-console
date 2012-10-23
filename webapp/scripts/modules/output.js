@@ -10,6 +10,10 @@ define(function(){
 		var outputHeight = this.htmlElement.children().last().offset().top - this.htmlElement.children().first().offset().top;
 		this.htmlElement.get(0).scrollTop = outputHeight;
 	};
+	
+	output.prototype.clear = function() {
+		this.htmlElement.html("");
+	};
 
 	output.prototype.getFullscreenBackgroundElement = function() {
 		var element = $("<div class='fullscreen-backgound'></div>");
