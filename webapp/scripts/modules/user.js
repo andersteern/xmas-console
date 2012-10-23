@@ -37,55 +37,55 @@ define(function(){
 		user.send = send;
 		user.run = run;
 	}
-	
-	function sendCallback (info) {
-		console.log('** pubnub callback: ' + JSON.stringify(info));
-	}
 
 	function connect(channel, callback) {
-		var _channel = channel || standardChannel,
-			_callback = callback || recieveMessage;
+		var _callback = callback || recieveMessage;
 
 		pubnub.subscribe({
 			restore  : true,
-			channel  : _channel,
-			connect  : send_hello,
+			channel  : standardChannel,
+			connect  : function () {
+				// get users from server
+				// server.registerNewUser()
+				send(user.name + ' joined from ' + user.location); 
+			},
 			callback : _callback,
 			disconnect : function() {
 				console.log("Connection Lost");
 			}
 		});
-
-		function send_hello (){
-			pubnub.publish({
-				channel  : _channel,
-				message  : { joined : user.name, location : user.location },
-				callback : function (info) {
-					user.id = info[2];
-				}
-			});
-		}
 	}
 
-	function send (channel, message) {
-		var _channel = channel || standardChannel;
-
+	function send (message, channel) {
+		var msg = prepareMessage(message),
+			_channel = channel || standardChannel;
+		
 		pubnub.publish({
-			channel  : channel,
-			message  : message
+			channel  : _channel,
+			message  : msg
 		});
 	}
 
-	function isFromSelf (msgInfo) {
-		return user.id === msgInfo[1];
+	function prepareMessage (message) {
+		var msg = {};
+		msg.id = user.name;
+		msg.body = message;
+		return msg;
+	}
+
+	function isFromSelf (id) {
+		return user.name === id;
 	}
 
 	function recieveMessage (message, info) {
-		if(isFromSelf(info)){
-			console.log('sent from yourself', message);
-		} else {
-			console.log(JSON.stringify(message));
+		if(isFromSelf(message.id)){
+			return;
 		}
+
+		if(!users[msg.id]) {
+			users[msg.id] = msg.body.split(' ')[0];
+		}
+		console.log(users[msg.id] + ': ' + JSON.stringify(message.body));
 	}
 
 	function run (args) {
