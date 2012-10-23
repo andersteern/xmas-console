@@ -1,15 +1,20 @@
-define(['modules/chat'], function(chat){
+define(['modules/chat', 'modules/output'], function(chat, output){
 
-	var Command = function(output) {
-		this.output = output;
+	var Command = function() {
 	};
+
 	Command.prototype.run = function(args) {
 		var name = args.join(' ');
 		if(name.length < 4){
-			this.output.print('come on!!! A name cant be that short!');
+			output.print('come on!!! A name cant be that short!');
 		} else {
-			chat.init(args.join(' '));
-			this.output.print('setting name to: ' + chat.user.name );
+			if(!chat.send){
+				chat.init(args.join(' '));	
+			} else {
+				chat.user.name = name;
+			}
+			
+			output.print('setting name to: ' + chat.user.name );
 		}
 	};
 

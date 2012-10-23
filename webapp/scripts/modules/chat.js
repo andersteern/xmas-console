@@ -13,7 +13,6 @@ define(['modules/output'], function(_output){
 	// ----------------------------------
 	var user = {
 		name : '',
-		location : '',
 		id : ''
 	};
 	var chat = {};
@@ -21,7 +20,6 @@ define(['modules/output'], function(_output){
 
 	chat.init = function (name, location) {
 		user.name = name;
-		user.location = location;
 
 		// ----------------------------------
 		// INIT PUBNUB
@@ -49,7 +47,7 @@ define(['modules/output'], function(_output){
 				// assign uuid and send hello
 				pubnub.uuid(function(uuid){
 					user.id = uuid;
-					send(user.name + ' joined from ' + user.location); 
+					send(user.name + ' joined!'); 
 				});
 
 				// get users from server
