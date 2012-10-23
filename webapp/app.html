@@ -4,14 +4,17 @@
         <title>Merry christmas console</title>
 		<link rel="stylesheet" type="text/css" href="style.css" media="all" />
         <script data-main="scripts/main" src="scripts/require-jquery.js"></script>
+        <script type="text/javascript" src="scripts/pubnub-3.1.min.js"></script>
     </head>
     <body>
         <h1></h1>
 		<div id="background"></div>
         <div id="main">
-			<strong class="console-start">></strong>
-        	<input type="text" id="console">
         	<div id="output"></div>
+			<div id="console-wrapper">
+				<strong class="console-start">></strong>
+        		<input type="text" id="console" />
+			</div>
         </div>
 		<div id="foreground"></div>
     </body>

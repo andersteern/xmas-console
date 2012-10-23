@@ -6,6 +6,13 @@ define(function(){
 
 	output.prototype.print = function(msg) {
 		this.htmlElement.append('<p>'+msg+'</p>');
+		
+		var outputHeight = this.htmlElement.children().last().offset().top - this.htmlElement.children().first().offset().top;
+		this.htmlElement.get(0).scrollTop = outputHeight;
+	};
+	
+	output.prototype.clear = function() {
+		this.htmlElement.html("");
 	};
 
 	output.prototype.getFullscreenBackgroundElement = function() {
