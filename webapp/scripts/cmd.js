@@ -38,8 +38,14 @@ define(function(){
 		var cmdArray = cmd.split(/\s+/),
 			command = cmdArray[0],
 			args = cmdArray.slice(1);
-		
+
 		this.output.print("> " + cmd);
+		
+		if( !commands.setname && command !== 'setname' ) {
+			this.output.print("bad bad, u not said u name!");
+			return;
+		}
+
 		this.history.push(cmd);
 		this.historyPointer = this.history.length;
 		
@@ -54,7 +60,7 @@ define(function(){
 				this.output.print('no such command: ' + command);
 			}.bind(this));
 		}
-	}
+	};
 	cmd.prototype.getHistory = function( /* int */ direction ) {
 		this.historyPointer = this.historyPointer + direction;
 		
@@ -69,8 +75,9 @@ define(function(){
 		
 		this.consoleElement.val(this.history[this.historyPointer]);
 	};
-	cmd.prototype.seyHello = function() {
-		this.output.print("Hello");
+	cmd.prototype.sayHello = function() {
+		this.output.print("Hello!");
+		this.output.print("Plz give name thxs! (Pzt: 'setname &lt;yao name&gt;')");
 	};
 	
 	return cmd;
