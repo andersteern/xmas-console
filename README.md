@@ -17,3 +17,5 @@ define(function(){
 	return Command;
 });
 ```
+
+THE BRAIN!
