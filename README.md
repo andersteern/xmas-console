@@ -5,13 +5,17 @@ Web based xmas console to keep the raindeers at bay
 Example command-module:
 
 ```js
-define(function(){
+define(['modules/output', 'modules/chat'], function(output, chat){
+	
+	// call output.print to display things
+	// call chat.send(message) to message other users 
 
-	var Command = function(output) {
-		this.output = output;
+	var Command = function() {
+		// init instance
 	};
+
 	Command.prototype.run = function(/* string[] */ args) {
-		this.output.print('running command with args:' + args.join(', ') );
+		output.print('running command with args:' + args.join(', ') );
 	};
 
 	return Command;
