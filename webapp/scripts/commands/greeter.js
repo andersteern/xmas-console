@@ -1,11 +1,12 @@
-define(function(user){
+define(
+	["modules/output"],
+	function(output){
 
-	var Command = function(output) {
-		this.output = output;
+	var Command = function() {
 	};
 	Command.prototype.run = function(args) {
 		if (args[0] === "fullscreen") {
-			var fullscreen = this.output.getFullscreenForegroundElement();
+			var fullscreen = output.getFullscreenForegroundElement();
 			fullscreen.css("background-color", "pink");
 			
 			setTimeout(function() {
@@ -14,7 +15,7 @@ define(function(user){
 				});
 			}, 5000)
 		}
-		this.output.print('running command greeter with args:' + args.join(', ') );
+		output.print('running command greeter with args:' + args.join(', ') );
 	};
 
 	return Command;

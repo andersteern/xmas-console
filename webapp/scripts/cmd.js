@@ -1,8 +1,8 @@
-define(function(){
+define(["modules/output"], function(output){
+
 	var commands = {};
 	
-	var cmd = function(consoleElement, output) {
-		this.output = output;
+	var cmd = function(consoleElement) {
 		
 		this.consoleElement = consoleElement;
 	    this.consoleElement.on('keyup', this.handleInput.bind(this));
@@ -39,7 +39,7 @@ define(function(){
 			command = cmdArray[0],
 			args = cmdArray.slice(1);
 		
-		this.output.print("> " + cmd);
+		output.print("> " + cmd);
 		this.history.push(cmd);
 		this.historyPointer = this.history.length;
 		
@@ -48,10 +48,10 @@ define(function(){
 		}
 		else {
 			require(["commands/" + command], function(Command) {
-				commands[command] = new Command(this.output);
+				commands[command] = new Command();
 				commands[command].run(args);
 			}.bind(this), function (err) {
-				this.output.print('no such command: ' + command);
+				output.print('no such command: ' + command);
 			}.bind(this));
 		}
 	}
@@ -70,7 +70,7 @@ define(function(){
 		this.consoleElement.val(this.history[this.historyPointer]);
 	};
 	cmd.prototype.seyHello = function() {
-		this.output.print("Hello");
+		output.print("Hello");
 	};
 	
 	return cmd;

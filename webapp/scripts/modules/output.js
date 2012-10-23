@@ -1,31 +1,40 @@
 define(function(){
 
-	var output = function (htmlElement){
-		this.htmlElement = htmlElement;
-	};
-
-	output.prototype.print = function(msg) {
-		this.htmlElement.append('<p>'+msg+'</p>');
-		
-		var outputHeight = this.htmlElement.children().last().offset().top - this.htmlElement.children().first().offset().top;
-		this.htmlElement.get(0).scrollTop = outputHeight;
-	};
+	var element;
 	
-	output.prototype.clear = function() {
-		this.htmlElement.html("");
-	};
+	function create( htmlElement ) {
+		element = htmlElement;
+	}
+	
 
-	output.prototype.getFullscreenBackgroundElement = function() {
+	function print( msg ) {
+		element.append('<p>'+msg+'</p>');
+		
+		var outputHeight = element.children().last().offset().top - element.children().first().offset().top;
+		element.get(0).scrollTop = outputHeight;
+	}
+	
+	function clear( ) {
+		element.html("");
+	}
+
+	function getFullscreenBackgroundElement( ) {
 		var element = $("<div class='fullscreen-backgound'></div>");
 		element.appendTo("#background");
 		return element;
-	};
-	output.prototype.getFullscreenForegroundElement = function() {
+	}
+	function getFullscreenForegroundElement( ) {
 		var element = $("<div class='fullscreen-foreground'></div>");
 		element.appendTo("#foreground");
 		element.height($(window).height());
 		return element;
-	};
+	}
 
-	return output;
+	return {
+		create: create,
+		print: print,
+		clear: clear,
+		getFullscreenForegroundElement: getFullscreenForegroundElement,
+		getFullscreenBackgroundElement: getFullscreenBackgroundElement
+	};
 });
