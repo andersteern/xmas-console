@@ -21,5 +21,7 @@ define(['modules/output', 'modules/chat'], function(output, chat){
 	return Command;
 });
 ```
+Example available as gist:
+https://gist.github.com/3945388
 
 THE BRAIN! The brain...
