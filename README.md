@@ -21,5 +21,30 @@ define(['modules/output', 'modules/chat'], function(output, chat){
 	return Command;
 });
 ```
+Example is [available as a gist][commandSnippet].  
+*[gists in sublime text][gistsInSublime]*
 
-THE BRAIN! The brain...
+## Using the modules
+### output
+
+```js
+output.print(/* string */ msg); // output something to command line
+
+output.clear(); // clear previous outputs
+
+var bgEl = output.getFullscreenBackgroundElement(); // get reference to html-element
+var fgEl = output.getFullscreenForegroundElement(); // to do with as you wish
+```
+
+### chat
+
+```js
+chat.user.name; // get user's name
+
+chat.getUsers(); // get names of all connected users
+
+chat.send(/*string*/ msg); // send message to all users
+```
+
+[commandSnippet]: https://gist.github.com/3945388  
+[gistsInSublime]: http://net.tutsplus.com/tutorials/tools-and-tips/sexy-code-snippet-management-with-gists/

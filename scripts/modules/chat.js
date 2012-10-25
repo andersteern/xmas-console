@@ -38,12 +38,12 @@ define(['modules/output'], function(_output){
 		connect();
 	};
 	chat.getUsers = function() {
-		var userArray = [];
-		for (var userId in users) {
-			userArray.push(users[userId])
+		var userId, userArray = [];
+		for (userId in users) {
+			userArray.push(users[userId]);
 		}
 		return userArray;
-	}
+	};
 
 	function connect(channel, callback) {
 		var _callback = callback || recieveMessage;
