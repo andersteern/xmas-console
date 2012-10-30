@@ -17,19 +17,20 @@ define(["modules/chat"], function(chat){
 	};
 	
 	Edge.prototype.addEventListeners = function() {
-		chat.send("adding event listeners")
 		var self = this;
-		this.element.on( "click", ".close-btn", this.destroy.bind( this ) );
-		$(window).on( "devicemotion" ,function (e) {
-			console.log(e);
-			try {
-				self.speedX = e.accelerationIncludingGravity.x;
-				self.speedY = e.accelerationIncludingGravity.y;
-			}
-			catch (e) {
-				console.log("failed to read accelleration from event")
-			}
-		});
+		self.element.on( "click", ".edge-close-btn", this.destroy.bind( this ) );
+		window.addEventListener("deviceorientation", function(e) {
+			// gets the gyro position
+			self.speedX = e.gamma;
+			self.speedY = e.beta;
+		}, false);
+		/*
+		flat on table: x = 0, y = 0
+		standing top up: x = 0, y = 90
+		standing bottom up: x = 0, y = -90
+		standing left side up: x = 90, y = 0
+		standing right side up: x = -90, y = 0
+		*/
 	};
 
 	Edge.prototype.removeEventListeners = function() {
@@ -37,12 +38,12 @@ define(["modules/chat"], function(chat){
 	};
 
 	Edge.prototype.addInterface = function() {
-		// add close button
-		this.element.append('<div class="edge-close-btn">I\'m done</div>');
-		
 		// add logging area
 		this.log = $('<div class="edge-log"></div>');
 		this.element.append( this.log )
+
+		// add close button
+		this.element.append('<div class="edge-close-btn">I\'m done</div>');
 	};
 	
 	Edge.prototype.destroy = function() {
@@ -53,12 +54,13 @@ define(["modules/chat"], function(chat){
 	};
 	
 	Edge.prototype.update = function() {
-		this.x += this.speedX;
+		this.x = this.speedX;
 		this.speedX = 0;
-		this.y += this.speedY;
+		this.y = this.speedY;
 		this.speedY = 0;
 		
-		self.log.append("x: " + this.x + "<br/>y: " + this.y);
+		this.log.append("x: " + this.x + ", y: " + this.y + "<br/>");
+		this.log.get(0).scrollTop = 1000000000;
 		
 	};
 

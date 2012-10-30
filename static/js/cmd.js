@@ -22,7 +22,7 @@ define(["modules/output"], function(output){
 			this.consoleElement.val('');
 
 			//process command
-			this.processCommand(command);
+			this.processCommand(command.toLowerCase());
 		}
 		else if (e.keyCode === 38) { // up
 			this.getHistory( -1 );

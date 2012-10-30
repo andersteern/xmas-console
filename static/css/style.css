@@ -75,3 +75,21 @@ body {
 
 #output {
 }
+
+
+.edge-close-btn {
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 40px;
+	width: 100px;
+	background-color: #666;
+}
+.edge-log {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	overflow: auto;
+}
