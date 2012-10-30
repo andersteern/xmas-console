@@ -1,4 +1,4 @@
-define(function(){
+define(["modules/chat"], function(chat){
 
 	var Edge = function( element ) {
 		this.element = element;
@@ -17,6 +17,7 @@ define(function(){
 	};
 	
 	Edge.prototype.addEventListeners = function() {
+		chat.send("adding event listeners")
 		var self = this;
 		this.element.on( "click", ".close-btn", this.destroy.bind( this ) );
 		$(window).on( "devicemotion" ,function (e) {
