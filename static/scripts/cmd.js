@@ -81,5 +81,10 @@ define(["modules/output"], function(output){
 		output.print("Plz give name thxs! (Pzt: 'setname &lt;yao name&gt;')");
 	};
 	
+	cmd.prototype.focus = function() {
+		console.log("focus");
+		this.consoleElement.focus();
+	};
+	
 	return cmd;
 });
