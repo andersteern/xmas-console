@@ -19,10 +19,16 @@ define(function(){
 	Edge.prototype.addEventListeners = function() {
 		var self = this;
 		this.element.on( "click", ".close-btn", this.destroy.bind( this ) );
-		$(window).on( "devicemotion" ,function (e) {)
-			self.speedX = e.accelerationIncludingGravity.x;
-			self.speedY = e.accelerationIncludingGravity.y;
-		};
+		$(window).on( "devicemotion" ,function (e) {
+			console.log(e);
+			try {
+				self.speedX = e.accelerationIncludingGravity.x;
+				self.speedY = e.accelerationIncludingGravity.y;
+			}
+			catch (e) {
+				console.log("failed to read accelleration from event")
+			}
+		});
 	};
 
 	Edge.prototype.removeEventListeners = function() {
