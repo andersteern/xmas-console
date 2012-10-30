@@ -17,7 +17,7 @@ define(
 		else if(args.length > 0)
 		{
 			var uname = "";
-			
+
 			args.forEach(function(arg){
 				var isAll = arg=="-a"
 				
@@ -36,7 +36,7 @@ define(
 			});
 
 			if(uname == "")
-				uname = "Unknown command"
+				uname = "unknown argument"
 
 			output.print(uname)
 		}
