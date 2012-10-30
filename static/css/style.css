@@ -14,6 +14,13 @@ body {
 #console-wrapper {
 	position: relative;
 }
+.fullscreen-console #console-wrapper {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 23px;
+}
 #console {
 	position: absolute;
 	left: 24px;
@@ -37,6 +44,14 @@ body {
 	overflow-x: hidden;
 }
 
+.fullscreen-console #output {
+	position: absolute;
+	bottom: 23px;
+	top: 0;
+	left: 0;
+	right: 0;
+	max-height: 1000%;
+}
 #background,
 #main,
 #foreground {
@@ -46,6 +61,10 @@ body {
 }
 #main {
 	height: 100%;
+	overflow: hidden;
+}
+.fullscreen-console #main {
+	position: relative;
 }
 .fullscreen-foreground,
 .fullscreen-background {
