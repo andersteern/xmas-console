@@ -11,7 +11,10 @@ define(function(){
 		element.append('<p>'+msg+'</p>');
 		
 		var outputHeight = element.children().last().offset().top - element.children().first().offset().top;
-		element.get(0).scrollTop = outputHeight;
+		if (outputHeight > element.height() + 20) {
+			element.parent().addClass("fullscreen-console")
+		}
+		element.get(0).scrollTop = 1000000000;
 	}
 	
 	function clear( ) {
@@ -29,11 +32,15 @@ define(function(){
 		element.height($(window).height());
 		return element;
 	}
+	function getElement() {
+		return element;
+	}
 
 	return {
 		create: create,
 		print: print,
 		clear: clear,
+		getElement: getElement,
 		getFullscreenForegroundElement: getFullscreenForegroundElement,
 		getFullscreenBackgroundElement: getFullscreenBackgroundElement
 	};
