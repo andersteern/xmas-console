@@ -115,7 +115,7 @@ h1 sub
 	-o-transform: perspective(500px) rotateX(25deg);
 	transform: perspective(500px) rotateX(25deg);
 }
-.fullscreen-console .starwars {
+.fullscreen-console .starwars.spin {
 	top: -170% !important;
 }
 
