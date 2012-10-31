@@ -1,4 +1,4 @@
-define(['modules/output'], function(_output){
+define(['modules/output', 'modules/cookie'], function(_output, cookie){
 	
 	var users = {},
 		output = _output,
@@ -20,8 +20,8 @@ define(['modules/output'], function(_output){
 	chat.user = user;
 
 	chat.init = function (name) {
-		user.name = name;
-		
+		setName(name);
+
 		// ----------------------------------
 		// INIT PUBNUB
 		// ----------------------------------
@@ -34,6 +34,7 @@ define(['modules/output'], function(_output){
 
 		// add methods
 		chat.send = send;
+		chat.setName = setName;
 
 		connect();
 	};
@@ -44,6 +45,11 @@ define(['modules/output'], function(_output){
 		}
 		return userArray;
 	};
+
+	function setName (name) {
+		cookie.setName(name);
+		user.name = name;
+	}
 
 	function connect(channel, callback) {
 		var _callback = callback || recieveMessage;
@@ -81,6 +87,7 @@ define(['modules/output'], function(_output){
 	function prepareMessage (message) {
 		var msg = {};
 		msg.id = user.id;
+		msg.name = user.name;
 		msg.body = message;
 		return msg;
 	}
@@ -90,19 +97,16 @@ define(['modules/output'], function(_output){
 	}
 
 	function getSender (msg) {
-		if(!users[msg.id]) {
-			users[msg.id] = msg.body.split(' ')[0];
-		}
-		return users[msg.id];
+		users[msg.id] = msg.name;
+		return msg.name;
 	}
 
 	function recieveMessage (msg, info) {
 		if(isFromSelf(msg.id)){
 			return;
-		}
-		var sender = getSender(msg);
-		
-		output.print(sender + ': ' + JSON.stringify(msg.body));
+		}		
+		var name = getSender(msg);
+		output.print(name + ': ' + JSON.stringify(msg.body));
 	}
 
 	return chat;
