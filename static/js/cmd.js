@@ -1,4 +1,4 @@
-define(["modules/output"], function(output){
+define(["modules/output", "modules/cookie", "modules/chat"], function(output, cookie, chat){
 
 	var commands = {};
 	
@@ -43,7 +43,7 @@ define(["modules/output"], function(output){
 
 		output.print("> " + cmd);
 		
-		if( !this.debug && !commands.setname && command !== 'setname' ) {
+		if( !cookie.hasName() && command !== 'setname' ) {
 			output.print("bad bad, u not said u name!");
 			return;
 		}
@@ -80,7 +80,19 @@ define(["modules/output"], function(output){
 
 	cmd.prototype.sayHello = function() {
 		output.print("Hello!");
-		output.print("Plz give name thxs! (Pzt: 'setname &lt;yao name&gt;')");
+		if(cookie.hasName()){
+			var name = cookie.getName();
+			chat.init(name);
+			output.print("Hai "+name+", welcome back!");
+		} else {
+			output.print("Plz give name thxs! (Pzt: 'setname &lt;yao name&gt;')");
+		}
+		
+	};
+	
+	cmd.prototype.focus = function() {
+		console.log("focus");
+		this.consoleElement.focus();
 	};
 	
 	return cmd;

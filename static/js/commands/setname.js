@@ -12,6 +12,8 @@ define(['modules/chat', 'modules/output'], function(chat, output){
 
 			if(chat.send){
 				output.print('Me likez ur name just the wayz it is!');
+				output.print('But ok... :/');
+				chat.setName(name);
 			} 
 			else {
 				chat.init(name);
