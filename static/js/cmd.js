@@ -2,7 +2,7 @@ define(["modules/output"], function(output){
 
 	var commands = {};
 	
-	var cmd = function(consoleElement) {
+	var cmd = function(consoleElement, debug) {
 		
 		this.consoleElement = consoleElement;
 	    this.consoleElement.on('keyup', this.handleInput.bind(this));
@@ -11,6 +11,8 @@ define(["modules/output"], function(output){
 		
 		this.history = [];
 		this.historyPointer = null;
+		
+		this.debug = debug;
 	};
 	cmd.prototype.handleInput = function (e) {
 		if (e.keyCode === 13) { // enter
@@ -41,7 +43,7 @@ define(["modules/output"], function(output){
 
 		output.print("> " + cmd);
 		
-		if( !commands.setname && command !== 'setname' ) {
+		if( !this.debug && !commands.setname && command !== 'setname' ) {
 			output.print("bad bad, u not said u name!");
 			return;
 		}
