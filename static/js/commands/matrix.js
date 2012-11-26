@@ -39,7 +39,7 @@ define(["modules/output"], function(output){
 			$(pres[i]).text($(pres[i]).text().replace(/./g, " "));
 		}		
 
-		var interval = setInterval(function() {
+		var intervalHandle = setInterval(function() {
 
 		    var randindex = Math.floor(Math.random()*elements.length);
 			randelem = elements[randindex];
@@ -48,8 +48,17 @@ define(["modules/output"], function(output){
 
 			randelem.top = randelem.top + speed;
 
-			if(randelem.top > window.innerHeight)
-				interval.clearInterval();
+			if(randelem.top > window.innerHeight){
+				clearInterval();
+
+				$.each(elements, function(){
+					var el = this.element;
+
+					$(el).remove();
+				});				
+
+				return;
+			}
 
 			var htmlelem = randelem.element;
 			SetAbsPos(htmlelem, randelem.top, randelem.left);
