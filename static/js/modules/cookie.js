@@ -25,18 +25,15 @@ define(function(){
 	}
 
 	function getName () {
-		console.log('cooikie: getName');
 		return getCookie(cookieName);
 	}
 
 	function hasName () {
-		console.log('cooikie: hasName', !!getCookie(cookieName));
 		return !!getCookie(cookieName);
 	}
 
 	function setName (newName) {
 		if(getName() !== newName) {
-			console.log('cooikie: serName');
 			setCookie(cookieName, newName, 90);
 		}
 	}
