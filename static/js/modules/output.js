@@ -8,7 +8,7 @@ define(function(){
 	
 
 	function print( msg ) {
-		element.append('<p>'+msg+'</p>');
+		element.append('<p><pre>'+msg+'</pre></p>');
 		
 		var outputHeight = element.children().last().offset().top - element.children().first().offset().top;
 		if (outputHeight > element.height() + 20) {

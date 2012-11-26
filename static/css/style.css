@@ -76,7 +76,6 @@ body {
 #output {
 }
 
-
 .edge-close-btn {
 	position: absolute;
 	top: 0;
@@ -92,4 +91,7 @@ body {
 	top: 0px;
 	left: 0px;
 	overflow: auto;
+}
+pre {
+	white-space: pre-wrap;
 }
