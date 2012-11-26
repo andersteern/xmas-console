@@ -4,6 +4,10 @@ define(['modules/chat', 'modules/output'], function(chat, output){
 	};
 
 	Command.prototype.run = function(args) {
+		var outputElement = output.getElement();
+		
+		outputElement.addClass("flip");
+
 		output.print(chat.user.name );
 	};
 

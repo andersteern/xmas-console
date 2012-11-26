@@ -9,7 +9,7 @@ define(['modules/output', 'modules/cookie'], function(_output, cookie){
 		subKey = 'sub-779ac1c5-1d2a-11e2-8659-73f6697c88cb';
 
 	// ----------------------------------
-	// Define Chat and User obect
+	// Define Chat and User object
 	// ----------------------------------
 	var user = {
 		name : '',
