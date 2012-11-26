@@ -1,6 +1,7 @@
 var express = require('express'),
 	jsdom = require('jsdom'),
 	request = require('request'),
+	fs = require('fs'),
 	url = require('url');
 
 var app = express.createServer(express.logger());
@@ -25,13 +26,13 @@ var getMediaFileFromUrl = (function () {
 			}, function(err, window){
 				var $ = window.jQuery;
 				$("ref").each(function() {
-					cache[url] = $(this).attr("href")
+					cache[url] = $(this).attr("href");
 					callback(cache[url]);
 				});
 			});
 		});
 	};
-}())
+}());
 
 app.get('/digi', function(req, res){
 	var asxFiles = [];
@@ -50,7 +51,7 @@ app.get('/digi', function(req, res){
 				asxFiles.forEach(function(asxFile) {
 					getMediaFileFromUrl(asxFile, function(media) {
 						mediaFiles.push(media);
-						if (asxFiles.length == mediaFiles.length) {
+						if (asxFiles.length === mediaFiles.length) {
 							res.end(JSON.stringify(mediaFiles));
 						}
 					});
@@ -63,9 +64,23 @@ app.get('/digi', function(req, res){
 	});
 });
 
+// get names of commands from files
+app.get('/cmds', function(req, res) {
+	var results = [];
+	fs.readdir('static/js/commands', function(err, list){
+		if(err){
+			res.statusCode = 400;
+			res.end('{}');
+		} else {
+			res.statusCode = 200;
+			res.write(JSON.stringify(list));
+			res.end();
+		}
+	});
+});
 
 var port = process.env.PORT || 5000;
 app.listen(port, function() {
- 	console.log("Listening on " + port);
+	console.log("Listening on " + port);
 });
 

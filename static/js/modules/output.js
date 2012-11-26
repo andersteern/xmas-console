@@ -13,7 +13,7 @@ define(function(){
 		
 		var outputHeight = element.children().last().offset().top - element.children().first().offset().top;
 		if (outputHeight > element.height() + 20) {
-			element.parent().addClass("fullscreen-console")
+			element.parent().addClass("fullscreen-console");
 		}
 		element.get(0).scrollTop = 1000000000;
 	}
