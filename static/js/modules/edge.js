@@ -1,5 +1,15 @@
 define(["modules/chat"], function(chat){
 
+	var maxSpeed = 300,
+		friction = 0.9,
+		maxX = $(window).width() - 10,
+		maxY = $(window).height() - 10;
+
+	function constrain(value, min, max) {
+		var constrainedValue = Math.max(value, min);
+		constrainedValue = Math.min(constrainedValue, max);
+		return constrainedValue;
+	}
 	var Edge = function( element ) {
 		this.element = element;
 		
@@ -10,7 +20,6 @@ define(["modules/chat"], function(chat){
 		this.accelerationX = 0;
 		this.accelerationY = 0;
 		
-		
 		this.addEventListeners();
 
 		this.addInterface();
@@ -18,15 +27,15 @@ define(["modules/chat"], function(chat){
 		setInterval( this.update.bind( this ), 50);
 	};
 	
+	
+	
 	Edge.prototype.addEventListeners = function() {
 		var self = this;
 		self.element.on( "click", ".edge-close-btn", this.destroy.bind( this ) );
 		window.addEventListener("deviceorientation", function(e) {
 			// gets the gyro position
-			//self.log.append("gamma: " + e.gamma + ", beta: " + e.beta + "<br/>");
-			//self.log.get(0).scrollTop = 1000000000;
-			self.accelerationX = e.gamma;
-			self.accelerationY = e.beta;
+			self.accelerationX = e.gamma < 0 ? -90 + Math.abs(e.gamma + 90) : 90 - Math.abs(e.gamma - 90);
+			self.accelerationY = e.beta < 0  ? -90 + Math.abs(e.beta + 90)  : 90 - Math.abs(e.beta - 90);
 		}, false);
 		/*
 		flat on table: x = 0, y = 0
@@ -50,7 +59,7 @@ define(["modules/chat"], function(chat){
 		this.element.append('<div class="edge-close-btn">I\'m done</div>');
 
 		// add close button
-		//this.ball = $('<div class="edge-ball"></div>');
+		this.ball = $('<div class="edge-ball"></div>');
 		this.element.append( this.ball );
 	};
 	
@@ -62,20 +71,22 @@ define(["modules/chat"], function(chat){
 	};
 	
 	Edge.prototype.update = function() {
-		this.speedX += this.accelerationX;
-		this.speedY += this.accelerationY;
+		this.speedX = Math.floor(constrain(this.speedX + this.accelerationX, -maxSpeed, maxSpeed) * friction);
+		this.speedY = Math.floor(constrain(this.speedY + this.accelerationY, -maxSpeed, maxSpeed) * friction);
 
-		this.log.append("speedY: " + this.speedY + "<br/>");
-		this.log.get(0).scrollTop = 1000000000;
-
-		this.x += this.speedX / 3;
-		this.y += this.speedY / 3;
+		this.x = constrain(this.x + this.speedX / 10, 0, maxX);
+		this.y = constrain(this.y + this.speedY / 10, 0, maxY);
+		
+		// bounce?
+		if (this.x === 0) {         this.speedX =  Math.abs(this.speedX); }
+		else if (this.x === maxX) { this.speedX = -Math.abs(this.speedX); }
+		else if (this.y === 0) {    this.speedY =  Math.abs(this.speedY); }
+		else if (this.y === maxY) { this.speedY = -Math.abs(this.speedY); }
 		
 		this.ball.css({
-			top: this.y,
-			left: this.x
+			top: Math.round(this.y),
+			left: Math.round(this.x)
 		});
-		
 	};
 
 	return Edge;
