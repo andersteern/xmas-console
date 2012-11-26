@@ -1,6 +1,7 @@
 define(function(){
 
-	var element;
+	var element,
+        lastUsedCommand = '';
 	
 	function create( htmlElement ) {
 		element = htmlElement;
@@ -36,12 +37,22 @@ define(function(){
 		return element;
 	}
 
+    function setLastCommand(command) {
+        lastUsedCommand = command;
+    }
+
+    function getLastCommand() {
+        return lastUsedCommand;
+    }
+
 	return {
 		create: create,
 		print: print,
 		clear: clear,
 		getElement: getElement,
 		getFullscreenForegroundElement: getFullscreenForegroundElement,
-		getFullscreenBackgroundElement: getFullscreenBackgroundElement
+		getFullscreenBackgroundElement: getFullscreenBackgroundElement,
+        setLastCommand: setLastCommand,
+        getLastCommand: getLastCommand
 	};
 });
