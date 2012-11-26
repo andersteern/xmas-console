@@ -11,6 +11,10 @@ define(['modules/output'], function(output){
                     output.print("WTF! Then getz you a VHS!");
                     break;
 
+                case "delete":
+                    output.print("Weak, are you a ***** !?");
+                    break;
+
                 default:
                     output.print("Me not find anz NO-question :(");
             }

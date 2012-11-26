@@ -11,6 +11,10 @@ define(['modules/output'], function(output){
                     output.print("CD is da shitz, stop harrasing me!");
                     break;
 
+                case "delete":
+                    output.print("Nahh, that's just stupid...");
+                    break;
+
                 default:
                     output.print("Me not find anz YES-question :(");
             }
