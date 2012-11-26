@@ -11,11 +11,15 @@ define(function(){
 	function print( msg ) {
 		element.append('<p><pre>'+msg+'</pre></p>');
 		
-		var outputHeight = element.children().last().offset().top - element.children().first().offset().top;
-		if (outputHeight > element.height() + 20) {
-			element.parent().addClass("fullscreen-console");
+		var firstOffset = element.children().first().offset();
+		var lastOffset = element.children().last().offset();
+		if (firstOffset && lastOffset) {
+			var outputHeight = lastOffset.top - firstOffset.top;
+			if (outputHeight > element.height() + 20) {
+				element.parent().addClass("fullscreen-console");
+			}
+			element.get(0).scrollTop = 1000000000;
 		}
-		element.get(0).scrollTop = 1000000000;
 	}
 	
 	function clear( ) {
