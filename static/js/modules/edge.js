@@ -7,6 +7,8 @@ define(["modules/chat"], function(chat){
 		this.y = 0;
 		this.speedX = 0;
 		this.speedY = 0;
+		this.accelerationX = 0;
+		this.accelerationY = 0;
 		
 		
 		this.addEventListeners();
@@ -21,8 +23,10 @@ define(["modules/chat"], function(chat){
 		self.element.on( "click", ".edge-close-btn", this.destroy.bind( this ) );
 		window.addEventListener("deviceorientation", function(e) {
 			// gets the gyro position
-			self.speedX = e.gamma;
-			self.speedY = e.beta;
+			//self.log.append("gamma: " + e.gamma + ", beta: " + e.beta + "<br/>");
+			//self.log.get(0).scrollTop = 1000000000;
+			self.accelerationX = e.gamma;
+			self.accelerationY = e.beta;
 		}, false);
 		/*
 		flat on table: x = 0, y = 0
@@ -44,6 +48,10 @@ define(["modules/chat"], function(chat){
 
 		// add close button
 		this.element.append('<div class="edge-close-btn">I\'m done</div>');
+
+		// add close button
+		//this.ball = $('<div class="edge-ball"></div>');
+		this.element.append( this.ball );
 	};
 	
 	Edge.prototype.destroy = function() {
@@ -54,13 +62,19 @@ define(["modules/chat"], function(chat){
 	};
 	
 	Edge.prototype.update = function() {
-		this.x = this.speedX;
-		this.speedX = 0;
-		this.y = this.speedY;
-		this.speedY = 0;
-		
-		this.log.append("x: " + this.x + ", y: " + this.y + "<br/>");
+		this.speedX += this.accelerationX;
+		this.speedY += this.accelerationY;
+
+		this.log.append("speedY: " + this.speedY + "<br/>");
 		this.log.get(0).scrollTop = 1000000000;
+
+		this.x += this.speedX / 3;
+		this.y += this.speedY / 3;
+		
+		this.ball.css({
+			top: this.y,
+			left: this.x
+		});
 		
 	};
 

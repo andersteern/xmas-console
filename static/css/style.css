@@ -92,6 +92,16 @@ body {
 	left: 0px;
 	overflow: auto;
 }
+.edge-ball {
+	position: absolute;
+	background-color: red;
+	width: 10px;
+	height: 10px;
+	top: 0px;
+	left: 0px;
+	border-radius: 5px;
+	
+}
 pre {
 	white-space: pre-wrap;
 }
