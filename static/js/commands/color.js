@@ -10,6 +10,7 @@ define(['modules/output'], function(output){
         switch (args[0]) {
             case "-r":
                 $("body, #console").css("background-color", "black");
+                $("body, #console").css("color", "limegreen");
                 break;
         }
     };
