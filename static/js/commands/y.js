@@ -1,4 +1,4 @@
-define(['modules/output'], function(output){
+define(['modules/output', "commands/disco"], function(output, Disco){
 
 	var Command = function() {
 	};
@@ -29,9 +29,11 @@ define(['modules/output'], function(output){
                                 $("#main").prepend(
                                     $("<div>", {id: "overlay"}).fadeIn(500)
                                 );
-                                setTimeout(function() {
-                                   $("#overlay").remove();
-                                }, 5000);
+								$("#overlay").click(function() {
+									output.print("And the punishment for doing stupid things...");
+									(new Disco()).run([]);
+                                   	$("#overlay").remove();
+                                });
                             }
                         }, 70);
                     })();

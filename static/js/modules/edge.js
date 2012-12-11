@@ -4,7 +4,7 @@ define(["modules/qr"], function(qr){
 		friction = 0.9,
 		maxX = $(window).width() - 10,
 		maxY = $(window).height() - 10,
-		orientation = window.orientation;
+		orientation = window.orientation || 0;
 
 	function constrain(value, min, max) {
 		var constrainedValue = Math.max(value, min);
@@ -58,8 +58,10 @@ define(["modules/qr"], function(qr){
 			orientation = window.orientation;
 		});
 		setTimeout(function() {
-			self.destroy();
-			qr.display('We are not compatible!!! You are not eDgY enough<br/>Open tha link on a device with a accelero-thingy-meter');
+			if (!devicemotionTriggered) {
+				self.destroy();
+				qr.display('We are not compatible!!! You are not eDgY enough<br/>Open tha link on a device with a accelero-thingy-meter');
+			}
 		}, 1000)
 		/*
 		flat on table: x = 0, y = 0
