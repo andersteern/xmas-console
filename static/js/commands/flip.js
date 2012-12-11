@@ -8,11 +8,7 @@ define(
 		var outputElement = output.getElement();
 		
 
-		if($("#main").hasClass("flip180")) {
-			$("#main").removeClass("flip180");
-		} else {
-			$("#main").addClass("flip180");
-		}
+		$("#main").toggleClass("flip180");
 
 		output.print( "If that is what you really want?!" );
 	};
