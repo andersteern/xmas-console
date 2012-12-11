@@ -114,7 +114,7 @@ define(['modules/output', 'modules/cookie'], function(_output, cookie){
 			return;
 		}
 		var name = getSender(msg);
-		output.print(name + ': ' + decodeURIComponent(msg.body));
+		output.print(name + (msg.receiver ? ">" + user.name) + ': ' + '"' + decodeURIComponent(msg.body) + '"');
 	}
 
 	return chat;
