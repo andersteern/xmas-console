@@ -60,7 +60,6 @@ define(["modules/output", "modules/cookie", "modules/chat"], function(output, co
 				commands[command].run(args);
 			}.bind(this), function (err) {
 				output.print('no such command: ' + command);
-				output.print(err);
 			}.bind(this));
 		}
 	};
