@@ -1,11 +1,13 @@
 define(
-	["modules/output", "modules/chat"],
-	function(output, chat){
+	["modules/output", "modules/chat", "modules/cookie"],
+	function(output, chat, cookie){
 
 	var Command = function() {
 	};
 	Command.prototype.run = function(args) {
-		chat.send(args.join(" "));
+		var msg = args.join(" ")
+		output.print(cookie.getName() + ": \"" + msg + "\"");
+		chat.send(encodeURIComponent(msg));
 	};
 
 	return Command;
