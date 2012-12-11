@@ -1,15 +1,21 @@
-define(["modules/chat"], function(chat){
+define(["modules/qr"], function(qr){
 
 	var maxSpeed = 300,
 		friction = 0.9,
 		maxX = $(window).width() - 10,
-		maxY = $(window).height() - 10;
+		maxY = $(window).height() - 10,
+		orientation = window.orientation;
 
 	function constrain(value, min, max) {
 		var constrainedValue = Math.max(value, min);
 		constrainedValue = Math.min(constrainedValue, max);
 		return constrainedValue;
 	}
+	function rotate(coord, rotation) {
+		if (rotation === 0 || rotation === 360) return coord;
+		return rotate([coord[1], -coord[0]], rotation + 90)
+	}
+	
 	var Edge = function( element ) {
 		this.element = element;
 		
@@ -23,20 +29,38 @@ define(["modules/chat"], function(chat){
 		this.addEventListeners();
 
 		this.addInterface();
-	
+		this.focusedElement = $(":focus");
+		this.focusedElement.blur();
+
 		setInterval( this.update.bind( this ), 50);
 	};
 	
 	
 	
 	Edge.prototype.addEventListeners = function() {
+		var devicemotionTriggered = false;
 		var self = this;
 		self.element.on( "click", ".edge-close-btn", this.destroy.bind( this ) );
 		window.addEventListener("deviceorientation", function(e) {
+			devicemotionTriggered = true;
 			// gets the gyro position
-			self.accelerationX = e.gamma < 0 ? -90 + Math.abs(e.gamma + 90) : 90 - Math.abs(e.gamma - 90);
-			self.accelerationY = e.beta < 0  ? -90 + Math.abs(e.beta + 90)  : 90 - Math.abs(e.beta - 90);
+			var gamma = e.gamma < 0 ? -90 + Math.abs(e.gamma + 90) : 90 - Math.abs(e.gamma - 90);
+			var beta  = e.beta < 0  ? -90 + Math.abs(e.beta + 90)  : 90 - Math.abs(e.beta - 90);
+			var rotated = rotate([gamma, beta], -orientation)
+			self.accelerationX = rotated[0]; //orientation === 0 ? gamma : orientation === 180 ? -gamma : orientation === 90 ? beta : -beta;
+			self.accelerationY = rotated[1]; //orientation === 0 ? beta : orientation === 180 ? -beta : orientation === 90 ? -gamma : gamma;
 		}, false);
+		window.addEventListener("orientationchange", function() {
+			maxX = $(window).width() - 10,
+			maxY = $(window).height() - 10;
+			
+			// Announce the new orientation number
+			orientation = window.orientation;
+		});
+		setTimeout(function() {
+			self.destroy();
+			qr.display('We are not compatible!!! You are not eDgY enough<br/>Open tha link on a device with a accelero-thingy-meter');
+		}, 1000)
 		/*
 		flat on table: x = 0, y = 0
 		standing top up: x = 0, y = 90
@@ -67,7 +91,8 @@ define(["modules/chat"], function(chat){
 		this.removeEventListeners();
 		this.element.fadeOut(function() {
 			this.element.remove();
-		}.bind( this ))
+		}.bind( this ));
+		this.focusedElement.focus();
 	};
 	
 	Edge.prototype.update = function() {
