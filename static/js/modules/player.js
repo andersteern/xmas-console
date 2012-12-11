@@ -12,7 +12,7 @@ define(function(){
 		}
 	};
 	Player.prototype.loadPlaylist = function(callback) {
-		if (playlist.lenght) {
+		if (playlist.length) {
 			callback();
 			return;
 		}
