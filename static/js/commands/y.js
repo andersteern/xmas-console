@@ -18,12 +18,12 @@ define(['modules/output'], function(output){
 
                 case "format":
                     output.print("Can't really remember which drive you wanted to format, so I'm gonna go ahead and format C: for you :)");
-                    output.print('Formatting C: (<span id="formatter">0</span>% done)');
+                    output.print('Formatting C: (<span class="formatter">0</span>% done)');
                     var counter = 0;
                     (function update() {
                         setTimeout(function() {
                             if (counter++ < 100) {
-                                $("#formatter").html(counter);
+                                $(".formatter").last().html(counter);
                                 update();
                             } else {
                                 $("#main").prepend(
