@@ -20,6 +20,7 @@ define(["modules/output", "modules/player"], function(output, player){
 				myPlayer.play();
 			} else {
 				myPlayer.pause();
+				myPlayer.rewind();
 			}
 		}, 2100);
 	}

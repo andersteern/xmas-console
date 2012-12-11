@@ -58,6 +58,9 @@ define(function(){
 	Player.prototype.pause = function () {
 		this.element.get(0).pause();
 	};
+	Player.prototype.rewind = function () {
+		this.element.get(0).currentTime = 0.01;
+	};
 	
 	return Player;
 });
