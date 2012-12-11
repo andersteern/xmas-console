@@ -15,7 +15,7 @@ define(
 				usrname = uname.substr(1);
 				msg = args.join(' ');
 			}
-			output.print(cookie.getName() + ": \"" + msg + "\"");
+			output.print(cookie.getName() + (usrname ? ">"+usrname : "") + ": \"" + msg + "\"");
 			chat.send(encodeURIComponent(msg), usrname);
 		}
 
