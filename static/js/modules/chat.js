@@ -98,7 +98,7 @@ define(['modules/output', 'modules/cookie'], function(_output, cookie){
 	}
 	
 	function isToMe(msg) {
-		return !msg.receiver || msg.receiver === user.id;
+		return !msg.receiver || msg.receiver === user.name;
 	}
 
 	function getSender (msg) {
