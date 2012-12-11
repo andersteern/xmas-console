@@ -29,7 +29,11 @@ console.log(args[0]);
                 url: apiUrl,
                 dataType: "jsonp",
             }).done(function(data) {
-                output.print(word +": "+ data[0].text);
+                if(data.length > 0 && data[0].text) {
+                    output.print(word +": "+ data[0].text);
+                } else {
+                    output.print("Deadnet yao goo ta Schoule!? Write a readable word!");
+                }
             });
         }
     };
