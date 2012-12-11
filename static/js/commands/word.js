@@ -5,30 +5,31 @@ define(['modules/chat', 'modules/output'], function(chat, output){
     };
     
     Command.prototype.run = function(args) {
-        var wordCount = 1,
-            readyCounter = 0;
-            outputString = "";
-
-        if(args[0] != "" && parseInt(args[0]) > 1) {
-            wordCount = parseInt(args[0]);
-        }
-
-        for(var i = 0; i < wordCount; i++) {
+        var apiKey = "76744c98a38747fd2396327c1691d8c52669161c55b7b49fe";
+console.log(args[0]);
+        if(args[0] && args[0] != "-r") {
+            LookUpWord(args[0]);
+        } else if(args[0] && args[0] == "-r") {
             $.ajax({
                 url: requestStr,
                 dataType: "jsonp",
             }).done(function(data) {
-                readyCounter++;
-
-                if(readyCounter < wordCount) {
-                    outputString += data.Word.replace(/(\r\n|\n|\r)/gm,"") + " ";
-                } else {
-                    outputString += data.Word.replace(/(\r\n|\n|\r)/gm,"");
+                if(data.Word != "") {
+                    LookUpWord(data.Word.replace(/(\r\n|\n|\r)/gm,""));
                 }
+            });
+        } else {
+            output.print("Please enter a word or -r for a random word.");
+        }
 
-                if(readyCounter == wordCount) {
-                    output.print(outputString);
-                }
+        function LookUpWord(word) {
+            var apiUrl = "http://api.wordnik.com/v4/word.json/"+word+"/definitions?api_key="+apiKey;
+
+            $.ajax({
+                url: apiUrl,
+                dataType: "jsonp",
+            }).done(function(data) {
+                output.print(word +": "+ data[0].text);
             });
         }
     };
