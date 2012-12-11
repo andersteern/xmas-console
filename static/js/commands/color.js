@@ -7,11 +7,9 @@ define(['modules/output'], function(output){
         $("body, #console").css("background-color", '#'+Math.floor(Math.random()*16777215).toString(16));
         $("body, #console").css("color", '#'+Math.floor(Math.random()*16777215).toString(16));
        
-        switch (args[0]) {
-            case "-r":
-                $("body, #console").css("background-color", "black");
-                $("body, #console").css("color", "limegreen");
-                break;
+        if (args && args.length && args[0] === "-r") {
+			$("body, #console").css("background-color", "black");
+			$("body, #console").css("color", "limegreen");
         }
     };
 
