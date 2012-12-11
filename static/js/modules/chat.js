@@ -74,9 +74,9 @@ define(['modules/output', 'modules/cookie'], function(_output, cookie){
 		});
 	}
 
-	function send (message, channel) {
-		var msg = prepareMessage(message),
-			_channel = channel || standardChannel;
+	function send (message, receiver) {
+		var msg = prepareMessage(message, receiver),
+			_channel = standardChannel;
 		
 		pubnub.publish({
 			channel  : _channel,
@@ -84,16 +84,21 @@ define(['modules/output', 'modules/cookie'], function(_output, cookie){
 		});
 	}
 
-	function prepareMessage (message) {
+	function prepareMessage (message, receiver) {
 		var msg = {};
 		msg.id = user.id;
 		msg.name = user.name;
 		msg.body = message;
+		msg.receiver = receiver;
 		return msg;
 	}
 
 	function isFromSelf (id) {
 		return user.id === id;
+	}
+	
+	function isToMe(msg) {
+		return !msg.receiver || msg.receiver === user.name;
 	}
 
 	function getSender (msg) {
@@ -104,7 +109,10 @@ define(['modules/output', 'modules/cookie'], function(_output, cookie){
 	function recieveMessage (msg, info) {
 		if(isFromSelf(msg.id)){
 			return;
-		}		
+		}
+		if (!isToMe(msg)) {
+			return;
+		}
 		var name = getSender(msg);
 		output.print(name + ': ' + decodeURIComponent(msg.body));
 	}
