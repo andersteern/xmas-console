@@ -48,6 +48,10 @@ define(function(){
 		}
 	};
 
+	Player.prototype.getCurrentSource = function () {
+		return this.element.attr("src");
+	};
+
 	Player.prototype.play = function () {
 		if (!this.element.attr("src")) {
 			throw new Error("no source file loaded");
@@ -55,13 +59,17 @@ define(function(){
 		}
 		this.element.get(0).play();
 	};
-	Player.prototype.loop = function () {
+	Player.prototype.loop = function (doLoop) {
 		if (!this.element.attr("src")) {
 			throw new Error("no source file loaded");
 			return;
 		}
-		this.element.attr('loop','loop');
-		this.element.get(0).play();
+		if(doLoop){
+			this.element.attr('loop','loop');
+		} else {
+			this.element.removeAttr('loop');
+		}
+		
 	};
 	Player.prototype.pause = function () {
 		this.element.get(0).pause();
