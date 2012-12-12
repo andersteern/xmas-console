@@ -58,6 +58,93 @@ define(function(){
     function getLastCommand() {
         return lastUsedCommand;
     }
+	
+	function slowPrint(msg, borderCharacter, speed) {
+		if (borderCharacter) {
+			borderCharacter = borderCharacter.substr(0,1);
+		}
+		if (typeof speed !== "number") {
+			speed = 20;
+		}
+		var maxWidth = Math.floor(element.width()/parseInt(element.css("font-size"), 10)/.6);
+		var characters = [];
+		var width = 0;
+
+		$.each(msg, function() { width = Math.max(width, this.length); });
+		if (borderCharacter) {
+			width += 4;
+			width = Math.min(width, maxWidth);
+			maxWidth -= 4;
+		}
+
+		function newline() {
+			characters.push("<br/>");
+		}
+		function addRow() {
+			for (var i = 0; i < width; i++) {
+				characters.push(borderCharacter);
+			}
+			newline();
+		}
+		function spaces(nr) {
+			while (nr-- > 0) {
+				characters.push(" ");
+			}
+		}
+		function padMsg(msg) {
+			if (borderCharacter) {
+				characters.push(borderCharacter);
+				spaces(Math.floor((width-msg.length-2)/2))
+			}
+			$.each(msg.split(""), function() {
+				characters.push(this);
+			});
+			if (borderCharacter) {
+				spaces(Math.ceil((width-msg.length-2)/2))
+				characters.push(borderCharacter);
+			}
+		}
+		function addPaddedMessage(msg) {
+			if (borderCharacter && maxWidth < msg.length) {
+				var split = msg.lastIndexOf(" ", maxWidth);
+				addPaddedMessage(msg.substr(0,split));
+				addPaddedMessage(msg.substr(split+1, msg.length-split));
+				return;
+			}
+			padMsg(msg);
+			newline();
+		}
+		if (borderCharacter) {
+			addRow();
+		}
+		$.each(msg, function() {
+			addPaddedMessage(this);
+		});
+		if (borderCharacter) {
+			addRow();
+		}
+
+        print('<span class="slowprint"></span>');
+		var slowprintElement = $(".slowprint").last().get(0);
+		var index = -1;
+		var spaceCharacterRegex = new RegExp("[\ " + (borderCharacter ? borderCharacter : "") + "]");
+		function printCharacter() {
+			if (++index >= characters.length) {
+				return 
+			}
+			var char = characters[index];
+			slowprintElement.innerHTML += char;
+			scroll();
+			if (spaceCharacterRegex.test(char.toString())) {
+				printCharacter();
+			}
+			else {
+				setTimeout(printCharacter,speed);
+			}
+		}
+		printCharacter();
+
+	}
 
 	return {
 		create: create,
@@ -69,6 +156,7 @@ define(function(){
 		getFullscreenForegroundElement: getFullscreenForegroundElement,
 		getFullscreenBackgroundElement: getFullscreenBackgroundElement,
         setLastCommand: setLastCommand,
-        getLastCommand: getLastCommand
+        getLastCommand: getLastCommand,
+		slowPrint: slowPrint
 	};
 });
