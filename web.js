@@ -1,5 +1,5 @@
 var express = require('express'),
-	jsdom = require('jsdom'),
+	cheerio = require('cheerio'),
 	request = require('request'),
 	fs = require('fs'),
 	url = require('url');
@@ -20,15 +20,11 @@ var getMediaFileFromUrl = (function () {
 		}
 		request({uri: url}, function(err, response, body){
 			if(err && response.statusCode !== 200){console.log('Request error.');}
-			jsdom.env({
-				html: body,
-				scripts: ['http://code.jquery.com/jquery-1.6.min.js']
-			}, function(err, window){
-				var $ = window.jQuery;
-				$("ref").each(function() {
-					cache[url] = $(this).attr("href");
-					callback(cache[url]);
-				});
+
+			var $ = cheerio.load(body);
+			$("ref").each(function() {
+				cache[url] = $(this).attr("href");
+				callback(cache[url]);
 			});
 		});
 	};
@@ -37,30 +33,28 @@ var getMediaFileFromUrl = (function () {
 app.get('/digi', function(req, res){
 	var asxFiles = [];
 	var mediaFiles = [];
-	request({uri: 'http://sverigesradio.se/sida/topplista.aspx?programid=2697'}, function(err, response, body){
-		if(err && response.statusCode !== 200){console.log('Request error.');}
-		jsdom.env({
-			html: body,
-			scripts: ['http://code.jquery.com/jquery-1.6.min.js']
-		}, function(err, window){
-			var $ = window.jQuery;
-			$(".music-toplist-table .play").each(function() {
-				asxFiles.push("http://sverigesradio.se" + $(this).attr("href"));
-			});
-			if (asxFiles.length) {
-				asxFiles.forEach(function(asxFile) {
-					getMediaFileFromUrl(asxFile, function(media) {
-						mediaFiles.push(media);
-						if (asxFiles.length === mediaFiles.length) {
-							res.end(JSON.stringify(mediaFiles));
-						}
-					});
-				});
-			}
-			else {
-				res.end("{}");
-			}
+
+	request('http://sverigesradio.se/sida/topplista.aspx?programid=2697', function(error, response, body){
+		if(error && response.statusCode !== 200){console.log('Request error.');}
+
+		var $ = cheerio.load(body);
+
+		$(".music-toplist-table .play").each(function () {
+			asxFiles.push("http://sverigesradio.se" + $(this).attr("href"));
 		});
+		if (asxFiles.length) {
+			asxFiles.forEach(function(asxFile) {
+				getMediaFileFromUrl(asxFile, function(media) {
+					mediaFiles.push(media);
+					if (asxFiles.length === mediaFiles.length) {
+						res.end(JSON.stringify(mediaFiles));
+					}
+				});
+			});
+		}
+		else {
+			res.end("{}");
+		}
 	});
 });
 
