@@ -55,6 +55,14 @@ define(function(){
 		}
 		this.element.get(0).play();
 	};
+	Player.prototype.loop = function () {
+		if (!this.element.attr("src")) {
+			throw new Error("no source file loaded");
+			return;
+		}
+		this.element.attr('loop','loop');
+		this.element.get(0).play();
+	};
 	Player.prototype.pause = function () {
 		this.element.get(0).pause();
 	};

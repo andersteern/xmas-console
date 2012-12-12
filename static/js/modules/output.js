@@ -8,9 +8,7 @@ define(function(){
 	}
 	
 
-	function print( msg ) {
-		element.append('<p><pre>'+msg+'</pre></p>');
-		
+	function scroll () {
 		var firstOffset = element.children().first().offset();
 		var lastOffset = element.children().last().offset();
 		if (firstOffset && lastOffset) {
@@ -20,6 +18,18 @@ define(function(){
 			}
 			element.get(0).scrollTop = 1000000000;
 		}
+	}
+
+	function print( msg ) {
+		element.append('<p><pre>'+msg+'</pre></p>');
+		
+		scroll();
+	}
+
+	function getPrintElement( ) {
+		var el = $('<p></p>');
+		element.append(el);
+		return el;
 	}
 	
 	function clear( ) {
@@ -52,7 +62,9 @@ define(function(){
 	return {
 		create: create,
 		print: print,
+		getPrintElement: getPrintElement,
 		clear: clear,
+		scroll: scroll,
 		getElement: getElement,
 		getFullscreenForegroundElement: getFullscreenForegroundElement,
 		getFullscreenBackgroundElement: getFullscreenBackgroundElement,
