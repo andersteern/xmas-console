@@ -42,7 +42,7 @@ define(["modules/qr"], function(qr){
 		var self = this;
 		self.element.on( "click", ".edge-close-btn", this.destroy.bind( this ) );
 		window.addEventListener("deviceorientation", function(e) {
-			devicemotionTriggered = true;
+			devicemotionTriggered = devicemotionTriggered || e.gamma || e.beta;
 			// gets the gyro position
 			var gamma = e.gamma < 0 ? -90 + Math.abs(e.gamma + 90) : 90 - Math.abs(e.gamma - 90);
 			var beta  = e.beta < 0  ? -90 + Math.abs(e.beta + 90)  : 90 - Math.abs(e.beta - 90);
