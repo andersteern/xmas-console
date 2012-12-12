@@ -2,6 +2,9 @@ define(["modules/player", "modules/output"], function(Player, output){
 
 	var Command = function() {
 		this.player = new Player();
+		this.player.onError = function(e) {
+			output.print("player error occurred");
+		};
 	};
 	Command.prototype.run = function(args) {
 		switch (args[0]) {
@@ -25,20 +28,21 @@ define(["modules/player", "modules/output"], function(Player, output){
 		}
 	};
 	Command.prototype.play = function(src) {
+		
 		if (src) {
 			this.load(src);
 		}
 		try {
-			this.player.play();
 			output.print("player playing");
+			this.player.play();
 		}
 		catch (e) {
 			this.next();
 		}
 	};
 	Command.prototype.pause = function() {
-		this.player.pause();
 		output.print("player paused");
+		this.player.pause();
 	};
 	Command.prototype.load = function(src) {
 		if (!src) {
@@ -46,9 +50,11 @@ define(["modules/player", "modules/output"], function(Player, output){
 			this.printUsage();
 			return;
 		}
+		output.print("loading file");
 		this.player.load(src);
 	};
 	Command.prototype.next = function() {
+		output.print("player next");
 		this.player.nextRandom();
 	};
 	Command.prototype.printUsage = function() {

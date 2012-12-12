@@ -51,6 +51,9 @@ define(["modules/qr"], function(qr){
 			self.accelerationY = rotated[1]; //orientation === 0 ? beta : orientation === 180 ? -beta : orientation === 90 ? -gamma : gamma;
 		}, false);
 		window.addEventListener("orientationchange", function() {
+			if (parseInt(self.orientationWarning.css("opacity"), 10) !== 1) {
+				self.orientationWarning.clearQueue().animate({opacity: 1}, 200).delay(10000).animate({opacity: 0}, 200);
+			}
 			maxX = $(window).width() - 10,
 			maxY = $(window).height() - 10;
 			
@@ -83,6 +86,10 @@ define(["modules/qr"], function(qr){
 
 		// add close button
 		this.element.append('<div class="edge-close-btn">I\'m done</div>');
+
+		// add orientation change warning
+		this.orientationWarning = $('<div class="edge-orientation-warning">You ar hurting me! Stop rotating your device, or I will be a very sad thing!</div>');
+		this.element.append(this.orientationWarning);
 
 		// add close button
 		this.ball = $('<div class="edge-ball"></div>');

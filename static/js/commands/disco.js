@@ -1,7 +1,9 @@
 define(["modules/output", "modules/player", "commands/color"], function(output, Player, Color){
 
 	var outputElement, myPlayer = new Player(), color = new Color(), interval;
-
+	myPlayer.onError = function() {
+		output.slowPrint(["a beating player error occurred. ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf ompf"], "#", 150);
+	}
 
 
 	var Command = function() {
@@ -21,10 +23,8 @@ define(["modules/output", "modules/player", "commands/color"], function(output, 
 					myPlayer.play();
 				});
 
-
 				interval = setInterval(function() {
 					color.run();
-
 				}, 1000);
 
 

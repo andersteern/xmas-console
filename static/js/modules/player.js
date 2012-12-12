@@ -1,16 +1,21 @@
 define(function(){
 	var playlist = [];
-	
+
 	var Player = function(src) {
-		
+		var self = this;
 		this.element = $("<audio></audio>");
 		this.element.appendTo(document.body);
 		this.element.hide();
+		
+		this.element.on("error", function(e) {
+			self.onError(e);
+		});
 		
 		if (src) {
 			this.load(src)
 		}
 	};
+	Player.prototype.onError = function() {};
 	Player.prototype.loadPlaylist = function(callback) {
 		if (playlist.length) {
 			callback();
