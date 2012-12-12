@@ -16,10 +16,10 @@ define(["modules/output", "modules/player"], function(output, Player){
 		fakeLaughUrl = 'https://dl.dropbox.com/u/4512000/fakeLaugh.mp3';
 
 	function denyOrGrantAccess (bool) {
-		if($('.grant').length === 0){
-			var fullscreenEl = output.getFullscreenForegroundElement();
-			fullscreenEl.append('<h2 class="access deny">ACCESS DENIED</h2>');
-			fullscreenEl.append('<h2 class="access grant">ACCESS GRANTED</h2>');
+		if($('.fakeworkfs').length === 0){
+			var el = output.getFullscreenForegroundElement().addClass('fakeworkfs');
+			el.append('<h2 class="access deny">ACCESS DENIED</h2>');
+			el.append('<h2 class="access grant">ACCESS GRANTED</h2>');
 			$('.access').css({
 				'display' : 'none',
 				'text-align' : 'center',
@@ -36,13 +36,21 @@ define(["modules/output", "modules/player"], function(output, Player){
 				'bottom' : '0',
 				'padding-top': '10px'
 			});
+			el.hide();
 		}
+		//hide or show messages
 		if(bool){
 			$('.deny').hide();
 			$('.grant').toggle();
 		} else {
 			$('.grant').hide();
 			$('.deny').toggle();
+		}
+		//hide or show fullscreen element
+		if($('.deny').css('display') === 'block' || $('.grant').css('display') === 'block'){
+			$('.fakeworkfs').show();
+		} else {
+			$('.fakeworkfs').hide();
 		}
 	}
 
