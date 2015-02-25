@@ -1,6 +1,7 @@
 define(["modules/output"],	function(output){
-
-	var apiKey = 'cb094e6c41330d30a3ab3464519c8a0abdde848e37dd028acb06c85abe2000e5';
+	
+	// IPInfoDB 
+	var apiKey = ''; // key was disabled since it was made avaiable via github
 
 	function checkInputIp (ip) {
 		return /^\d{1,3}(\.\d{1,3}){3}/.test(ip);
